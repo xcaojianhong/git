@@ -1,0 +1,16 @@
+﻿/*
+    <input id="test-input" name="email" value="">
+    <select id="test-select" name="city">
+        <option value="BJ" selected>Beijing</option>
+        <option value="SH">Shanghai</option>
+        <option value="SZ">Shenzhen</option>
+    </select>
+    <textarea id="test-textarea">Hello</textarea>
+*/
+var
+    input = $('#test-input'),
+    select = $('#test-select'),
+    textarea = $('#test-textarea');
+
+input.val(); // 'test'
+input.val('abc@example.com'); // 文本框的内容已变为abc@example.com
