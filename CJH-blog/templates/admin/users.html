@@ -1,0 +1,99 @@
+{% extends 'admin_base.html' %}
+{% block title %}所有用户{% endblock %}
+{% block css %}
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+{% block style %}
+<style>
+    body{
+        padding-top: 100px;
+    }
+</style>
+{% endblock %}
+
+
+{% block main %}
+<div class="container">
+    <div class="row">
+        <!--标签导航-->
+        <div class="">
+            <ul class="nav nav-tabs">
+              <li role="presentation" class="active"><a href="{{url_for('admin.users')}}">所有用户</a></li>
+              <li role="presentation"><a href="{{url_for('auth.add_user')}}">添加用户</a></li>
+            </ul>
+        </div>
+        <br><br>
+        <div class="">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>用户名</th>
+                        <th>昵称</th>
+                        <th>邮件</th>
+                        <th>最后登录</th>
+                        <th>创建时间</th>
+                        <th>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    权组
+                                <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li><a href="#">reader</a></li>
+                                    <li><a href="#">writer</a></li>
+                                    <li><a href="#">editor</a></li>
+                                    <li><a href="#">admin</a></li>
+                                </ul>
+                        </th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users.items %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td><a href="{{url_for('common.author_detail', username=user.username)}}">{{user.username}}</a></td>
+                        <td><a href="{{url_for('common.author_detail', username=user.username)}}">{{user.nickname}}</a></td>
+                        <td>{{user.email}}</td>
+                        <td>{{moment(user.last_login).format('YYYY/MM/DD h:mm a')}}</td>
+                        <td>{{moment(user.create_time).format('YYYY/MM/DD h:mm a')}}</td>
+                        <td>{{user.role}}</td>
+                        <td>
+                            <a href="{{url_for('admin.role', username=user.username)}}"><span class="glyphicon glyphicon-edit" title="修改权限"></span></a>&nbsp
+                            <!--直接用超链接方法无法修改Method，默认为get-->
+                            <a href="{{url_for('admin.user_delete',username=user.username)}}" class="del-user"><span class="glyphicon glyphicon-trash" title="删除" style="color:red;"></span></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!--翻页部分-->
+        {% import '_page_turning.html' as pages %}
+        {{pages.render(users, total, cur_category=None, cur_tag=None, keywords=None)}}
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<!--用ajax调用delete方法-->
+<script>
+    $('.del-user').on('click', function (event) {
+        var url = $(this).attr('href') + '?ajax=ture';
+        bootbox.confirm('删除后无法恢复，确定删除吗？', function (result) {
+            if(result){
+                $.ajax({
+                    url:url,
+                    type:'delete',
+                    success:function (result) {
+                        location.reload()
+                    }
+                    }
+                )
+            }
+        })
+        return false;
+    })
+</script>
+{% endblock%}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}{{user.nickname}}介绍{% endblock %}
+{% block css %}
+    <!--<link href="/static/css/bootstrap.min.css" rel="stylesheet">-->
+{% endblock %}
+{% block style %}
+    <style>
+        .about-auther,
+        .author-Articles{
+            padding-top: 35px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block bg_image %}
+<header class="intro-header" style="background-image: url('{{url_for('static', filename='image/index_bg.png')}}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>{{ user.nickname }}</h1>
+                    <hr class="small">
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" >
+                <div class="about-auther">
+                <h1>关于作者：</h1>
+                <hr/>
+                    <dl class="dl-horizontal">
+                        <dt>用户名：</dt>
+                        <dd>{{user.username}}</dd>
+                        <dt>作者简介：</dt>
+                        <dd>{{user.biography}}</dd>
+                        <dt>联系作者：</dt>
+                        <dd></dd>
+                        <dt>作者简历：</dt>
+                        <dd></dd>
+                    </dl>
+                </div>
+                <div class="author-Articles">
+                    <h1>博客：</h1>
+                    <hr/>
+                    <ol>
+                        {% for post in posts.items %}
+                        <li>{{post.title}}</li>
+                        {% else %}
+                        <p>作者还没发表过文章</p>
+                        {% endfor %}
+                    </ol>
+                </div>
+
+                <!--翻页部分-->
+                {% import '_page_turning.html' as pages %}
+                {{pages.render(posts, total)}}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block content %}
+<h3>关于{{user.username}}</h3>
+<p>用户名：{{user.username}}</p>
+<p>简介：{{user.bioraphy}}</p>
+
+<h3>文章</h3>
+    {% for post in posts %}
+    <p>{{post.title}}</p>
+    {% endfor %}
+
+{% endblock %}

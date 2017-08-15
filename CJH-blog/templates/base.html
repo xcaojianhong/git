@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备优先的设置 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- 在元类中添加标题、关键字、作者、描述、版权和制作软件等信息 -->
+    {% if post and blog_meta %}
+    <meta name="title" content="{{post.title}}|{{blog_meta.title}}">
+    <meta name="keywords" content="{{post.tags}}">
+    <meta name="author" content="{{post.author.username}}">
+    <meta name="description" content="{{post.abstract}}">
+    <meta name="copyright" content="{{blog_meta.copyright}}">
+    <meta name="generator" content="{{blog_meta.generator}}">
+    {% elif blog_meta %}
+    <meta name="title" content="{{blog_meta.title}}">
+    <meta name="keywords" content="{{blog_meta.keywords}}">
+    <meta name="author" content="{{blog_meta.author}}">
+    <meta name="description" content="{{blog_meta.description}}">
+    <meta name="copyright" content="{{blog_meta.coryright}}">
+    <meta name="generator" content="{{blog_meta.generator}}">
+    {% endif %}
+
+    <!-- 搜索引擎认证代码 -->
+    {% if blog_meta %}
+    <meta name="google-site-verification" content="{{ blog_meta.google_site_verification }}">
+    <meta name="baidu-site-verification" content="{{ blog_meta.baidu_site_verification }}">
+    <meta name="sogou_site_verification" content="{{ blog_meta.sogou_site_verification }}"/>
+    {% endif %}
+
+
+    <title>{% block title %}CJH Blog{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 从cdn引入bootstrap -->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 从cdn引入字体库 -->
+    <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--引入自己的css文件-->
+    <link href="{{url_for('static', filename='css/my.css')}}" rel="stylesheet">
+    <!-- 从cdn引入代码高亮 -->
+    <!--<link href="//cdn.bootcss.com/highlight.js/9.9.0/styles/default.min.css" rel="stylesheet">-->
+    <link href="/static/highlight/styles/monokai-sublime.css" rel="stylesheet">
+    {% block css %}
+    {% endblock%}
+
+    <!-- jQuery (Bootstrap 的 JavaScript 插件需要引入 jQuery) -->
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--<script src="/static/js/bootstrap.min.js"></script>-->
+    <!-- 从cdn引入代码高亮 -->
+    <!--<script src="//cdn.bootcss.com/highlight.js/9.9.0/highlight.min.js"></script>-->
+    <script src="/static/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <!--引入moment依赖的js-->
+    {{ moment.include_moment(local_js="//cdn.bootcss.com/moment.js/2.18.1/moment-with-locales.min.js") }}
+    <!--使用中文-->
+    {{moment.lang('zh-CN')}}
+    {% block js %}
+    {% endblock %}
+
+    <!-- 解决导航条固定在顶部遮挡的问题 -->
+    {% block style %}
+    <style>
+    </style>
+    {% endblock %}
+
+</head>
+<body>
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container">
+        <!--响应式的导航栏-->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-menu">
+                <span class="sr-only">切换导航</span>
+                <sapn class="icon-bar"></sapn>
+                <sapn class="icon-bar"></sapn>
+                <sapn class="icon-bar"></sapn>
+            </button>
+            <a class="navbar-brand" href="{{url_for('common.index')}}">首页</a>
+        </div>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('admin.index')}}">{{ current_user.username }}</i></a>
+                    {% else %}
+                    <a href="{{ url_for('auth.login')}}">登录</i></a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('auth.logout')}}">登出</i></a>
+                    {% else %}
+                    <a href="{{ url_for('auth.register')}}">注册</i></a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</nav>
+{% block bg_image %}
+{% endblock %}
+{% block main %}
+{% endblock %}
+</body>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 col-lg-offset-2 col-md-offset-1 col-xs-12 col-sm-12">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="https://github.com/xcaojianhong/git" target="_blank" title="GitHub">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-github fa-stack-2x"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank" title="twitter">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-twitter fa-stack-2x"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank" title="微信">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-weixin fa-stack-2x"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" target="_blank" title="微博">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-weibo fa-stack-2x"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="text-center"><a href="#" target="_blank">关于作者</a></p>
+                <p class="copyright text-muted text-center">Copyright &copy; CJH Blog 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    $("#main-menu a").click(function () {
+        $(this).tab("show");
+    })
+
+
+
+// 处理页面高度过矮时底部出现空白问题
+
+    window.onload = function(){
+
+    //待页面所有图片加载完毕后再执行
+
+        $("footer").css({'display':'block'});
+        if (document.body.clientHeight < window.innerHeight){
+            $("footer").css({'position':'fixed','bottom':'0','width':'100%'});
+        }
+        controllFooter();
+        };
+
+        function controllFooter(){
+            if ($(window).height() < $(document).height()){
+                $("footer").css('position','static');
+            }else{
+                $("footer").css({'position':'fixed','bottom':'0px'});
+            }
+        }
+
+
+</script>
+{% block script %}
+{% endblock%}
+
+</html>

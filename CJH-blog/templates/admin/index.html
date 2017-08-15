@@ -1,0 +1,40 @@
+{% extends 'admin_base.html' %}
+{% block title %}Admin Index{% endblock %}
+{% block style %}
+<style>
+    .about-user{
+        padding-top: 100px;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="container" style="padding-top: 70px">
+<div class="row about-user">
+    <div class="col-lg-10 col-md-offset-1 col-md-10 col-md-offset-1">
+    <h3>
+        关于用户
+        <small><a href="{{ url_for('auth.profile') }}"><span class="glyphicon glyphicon-edit" aria-hidden="true" title="修改用户信息"></span> </a></small>
+    </h3>
+    <hr>
+        <dl class="dl-horizontal">
+            <dt>用户名:</dt>
+            <dd>{{ user.username }}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>昵称:</dt>
+            <dd>{{ user.nickname}}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>简介:</dt>
+            <dd>{{ user.biography }}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>联系作者:</dt>
+            <dd>{{ user.social_networks['GitHub']['url'] }}</dd>
+        </dl>
+    </div>
+</div>
+</div>
+
+{% endblock %}

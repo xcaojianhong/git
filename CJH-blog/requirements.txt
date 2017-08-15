@@ -1,0 +1,9 @@
+flask
+pymongo
+flask_mongoengine
+flask_wtf
+flask_login
+flask_principal
+flask_moment
+markdown2
+uuid

@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+            <form method="Post" action="{{url_for('common.add_comment', id=post.id)}}" name="comment">
+                {{form.hidden_tag()}}
+                    <div class="form-group">
+                    {% if form.raw.errors %}
+                    {{ form.raw.label }}
+                    {{ form.raw(class_="form-control") }}
+                    <span class="help-block" style="color: red">{{ form.raw.errors|join(' ') }}</span>
+                    {% else %}
+                    {{ form.raw.label }}
+                    {{ form.raw(class_="form-control", rows=5, data_provide="markdown", placeholder="说点什么") }}
+                    {% endif %}
+                    </div>
+                <p><input type="submit" value="发表"></p>
+            </form>
+        </div>
+    </div>
+</div>
+

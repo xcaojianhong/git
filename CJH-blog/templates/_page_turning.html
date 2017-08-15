@@ -1,0 +1,70 @@
+{% macro render(pages, total, cur_category, cur_tag, keywords) -%}
+<nav aria-label="Page navigation" style="text-align: center">
+    <ul class="pagination pagination-lg">
+        <!--向前翻页-->
+        {% if pages.has_prev %}
+        <li>
+            <a href="?{{pages.prev_num}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="disabled">
+            <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% endif %}
+        <!--中间页码部分-->
+        <li class=""><a href="?page=1
+        {% if cur_category %}&category={{cur_category}}{% endif %}
+        {% if cur_tag %}&tag={{cur_tag}}{% endif %}
+        {% if keywords %}&keywords={{keywords}}{% endif %}
+        ">首页</a></li>
+        {% if pages.page>2 %}<li class=""><a href="?page={{pages.page-2}}
+        {% if cur_category %}&category={{cur_category}}{% endif %}
+        {% if cur_tag %}&tag={{cur_tag}}{% endif %}
+        {% if keywords %}&keywords={{keywords}}{% endif %}
+        ">{{pages.page-2}}</a></li>{% endif %}
+        {% if pages.page>1 %}<li class=""><a href="?page={{pages.page-1}}
+        {% if cur_category %}&category={{cur_category}}{% endif %}
+        {% if cur_tag %}&tag={{cur_tag}}{% endif %}
+        {% if keywords %}&keywords={{keywords}}{% endif %}
+        ">{{pages.page-1}}</a></li>{% endif %}
+        <li class="active"><a href="#">{{pages.page}}</a></li>
+        {% if pages.page<total %}<li class=""><a href="?page={{pages.page+1}}
+        {% if cur_category %}&category={{cur_category}}{% endif %}
+        {% if cur_tag %}&tag={{cur_tag}}{% endif %}
+        {% if keywords %}&keywords={{keywords}}{% endif %}
+        ">{{pages.page+1}}</a></li>{% endif %}
+        {% if pages.page<total-1 %}<li class=""><a href="?page={{pages.page+2}}
+        {% if cur_category %}&category={{cur_category}}{% endif %}
+        {% if cur_tag %}&tag={{cur_tag}}{% endif %}
+        {% if keywords %}&keywords={{keywords}}{% endif %}
+        ">{{pages.page+2}}</a></li>{% endif %}
+        <li class=""><a href="?page={{total}}
+        {% if cur_category %}&category={{cur_category}}{% endif %}
+        {% if cur_tag %}&tag={{cur_tag}}{% endif %}
+        {% if keywords %}&keywords={{keywords}}{% endif %}
+        ">尾页</a></li>
+        <!--向后翻页-->
+        {% if pages.has_next %}
+        <li>
+            <a href="?page={{pages.next_num}}
+            {% if cur_category %}&category={{cur_category}}{% endif %}
+            {% if cur_tag %}&tag={{cur_tag}}{% endif %}
+            {% if keywords %}&keywords={{keywords}}{% endif %}
+            " aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="disabled">
+            <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endmacro %}

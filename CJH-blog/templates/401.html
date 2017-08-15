@@ -1,0 +1,26 @@
+{% extends 'base.html'%}
+{% block title %}401 未授权的访问{% endblock %}
+{% block bg_image %}
+<header class="intro-header" style="background-image: url('{{url_for('static', filename='image/index_bg.png')}}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="site-heading">
+                    <h1>CJH Blog</h1>
+                    <hr class="small">
+                    <span class="subheading"><a><i class="fa fa-rss"></i></a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <h1 class="text-center">401 您未授权访问该页面</h1>
+    <h2 class="text-center"><a href="{{url_for('common.index')}}">返回首页</a></h2>
+    <br><br><br>
+    <hr>
+</div>
+{% endblock %}

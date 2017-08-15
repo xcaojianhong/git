@@ -1,0 +1,158 @@
+{% extends 'admin_base.html' %}
+{% block css %}
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/bootstrap-markdown/2.10.0/css/bootstrap-markdown.min.css" rel="stylesheet">
+    <!--多选框插件css-->
+    <link href="//cdn.bootcss.com/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css">
+{% endblock %}
+{% block js %}
+    <script src="//cdn.bootcss.com/marked/0.3.6/marked.min.js"></script>
+    <script src="//cdn.bootcss.com/to-markdown/3.1.0/to-markdown.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap-markdown/2.10.0/js/bootstrap-markdown.min.js"></script>
+    <!--多选框插件-->
+    <script src="//cdn.bootcss.com/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
+{% endblock %}
+{% block style %}
+    <style>
+        body { padding-top: 70px; }
+    </style>
+{% endblock %}
+{% block title %}发表博客{% endblock %}
+
+
+
+{% block main %}
+<div class="container" style="padding-bottom: 100px">
+    <div class="row">
+    <div class="col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
+        <form action="" method="post" name="add-post">
+            {{form.hidden_tag()}}
+            <div class="form-group">
+                {% if form.title.errors %}
+                {{ form.title.label }}
+                {{ form.title(class_="form-control") }}
+                <span class="help-block" style="color: red">{{ form.title.errors|join(' ') }}</span>
+                {% else %}
+                {{ form.title.label }}
+                {{ form.title(class_="form-control") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {% if form.abstract.errors %}
+                {{ form.abstract.label }}
+                {{ form.abstract(class_="form-control", rows=3) }}
+                <span class="help-block" style="color: red">{{ form.abstract.errors|join(' ') }}</span>
+                {% else %}
+                {{ form.abstract.label }}
+                {{ form.abstract(class_="form-control", rows=3) }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {% if form.raw.errors %}
+                {{ form.raw.label }}
+                {{ form.raw(class_="form-control", rows=20) }}
+                <span class="help-block" style="color: red">{{ form.raw.errors|join(' ') }}</span>
+                {% else %}
+                {{ form.raw.label }}
+                {{ form.raw(class_="form-control", rows=20, data_provide="markdown") }}
+                {% endif %}
+            </div>
+
+            <!--分类选择框-->
+            <div class="col-lg-5 col-md-5">
+            <div class="form-group">
+                {% if form.category.errors %}
+                {{ form.category.label }}
+                {{ form.category(class_="form-control") }}
+                <span class="help-block" style="color: red">{{ form.category.errors|join(' ') }}</span>
+                {% else %}
+                {{ form.category.label }}
+                <div class="input-group">
+                {{ form.category(class_="form-control") }}
+                    <div class="input-group-btn">
+                        <select id="category_select" size="2"><!--设置size属性>1, nonSelectedText才起作用-->
+                            {% for category in categorys %}
+                            <option value="{{category}}">{{category}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            </div>
+
+            <div class="col-lg-5 col-md-5">
+            <!--标签选择-->
+            <div class="form-group">
+                {% if form.tags_.errors %}
+                {{ form.tags_.label }}
+                {{ form.tags_(class_="form-control") }}
+                <span class="help-block" style="color: red">{{ form.tags_.errors|join(' ') }}</span>
+                {% else %}
+                {{ form.tags_.label }}
+                <div class="input-group">
+                {{ form.tags_(class_="form-control") }}
+                    <div class="input-group-btn">
+                        <select id="tag_select" multiple="multiple">
+                            {% for tag in tags %}
+                            <option value="{{tag}}">{{tag}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            </div>
+
+            <div class="col-lg-1 col-lg-offset-1 col-md-1 col-md-offset-1">
+            <p><input type="submit" name="publish" value="发表"></p>
+            <p><input type="submit" name="draft" value="保存"></p>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    <!--多选下拉框-->
+    $('#tag_select').multiselect({
+        enableFiltering: true,//搜索
+        nonSelectedText: '请选择标签',//没有选择的时候显示的内容
+        includeSelectAllOption: true, //支持全选
+        selectAllText: '全部标签',//全选的checkbox名称
+        maxHeight:200,
+//        onChange是选择触发的函数
+        onChange: function(element, checked) {
+        var brands = $('#tag_select option:selected');
+        var selected = [];
+        $(brands).each(function(index, brand){
+            selected.push([$(this).val()]);
+        });
+        var elem = $("#tags_").get(0);
+        elem.value = selected;
+    }
+    });
+
+    <!--多选下拉框-->
+    $('#category_select').multiselect({
+        enableFiltering: true,//搜索
+        nonSelectedText: '请选择分类',//没有选择的时候显示的内容
+//        includeSelectAllOption: true, //支持全选
+//        selectAllText: '全部标签',//全选的checkbox名称
+        maxHeight:200,
+//        onChange是选择触发的函数
+        onChange: function(element, checked) {
+        var brands = $('#category_select option:selected');
+        var selected = [];
+        $(brands).each(function(index, brand){
+            selected.push([$(this).val()]);
+        });
+        var elem = $("#category").get(0);
+        elem.value = selected;
+    }
+    });
+</script>
+{% endblock %}

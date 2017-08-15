@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 col-md-10 col-lg-offset-1 col-md-offset-1">
+            <div>
+                {% if comments %}
+                {% for comment in comments %}
+                <table>
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td>
+                            {% if comment.author %}
+                            <h4>
+                                {{comment.author.nickname}}
+                                {% if comment.author.nickname == post.author.nickname %}
+                                ——作者
+                                {% endif %}
+                            </h4>
+                            {% else %}
+                            <h4>{{comment.guest_user}}</h4>
+                            {% endif %}
+                        </td>
+                        <td style="width: 5%">
+                            <small>{{moment(comment.pub_time).format('YYYY/MM/DD h:mm a')}}</small>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    {{comment.content|safe}}
+                </div>
+                <hr>
+                {% endfor %}
+                <br>
+                <br>
+                {% else %}
+                <h3>该文章还没有评论</h3>
+                <hr>
+                <br>
+                <br>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
